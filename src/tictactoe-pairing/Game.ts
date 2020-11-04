@@ -21,31 +21,37 @@ export class Position {
     }
 }
 
-export class Game {
-    private currentPlayerIsX: boolean = true
+class UsedPositionsKeeper {
     private usedPosition = new Position(-1,-1)
-    
-    user2PlaysAt(arg0: number, arg1: number) {
-        const newPosition = new Position(arg0, arg1);
+
+    thowIfUsed(newPosition: Position){
         if(this.usedPosition.equals(newPosition)){
             throw new AlreadyPlayedPositionError()
         }
+        this.usedPosition = newPosition
+    }
+}
+
+export class Game {
+    private currentPlayerIsX: boolean = true
+    private usedPositionsKeeper : UsedPositionsKeeper= new UsedPositionsKeeper
+    
+    user2PlaysAt(arg0: number, arg1: number) {
+        const newPosition = new Position(arg0, arg1);
+        this.usedPositionsKeeper.thowIfUsed(newPosition)
+
         if(this.currentPlayerIsX){
             throw new NotThisPlayerTurnError()
         }
         this.currentPlayerIsX = true
-        this.usedPosition = newPosition
     }
 
     user1PlaysAt(arg0: number, arg1: number) {
         const newPosition = new Position(arg0, arg1);
-        if(this.usedPosition.equals(newPosition)){
-            throw new AlreadyPlayedPositionError()
-        }
+        this.usedPositionsKeeper.thowIfUsed(newPosition)
         if(! this.currentPlayerIsX){
             throw new NotThisPlayerTurnError()
         }
         this.currentPlayerIsX = false
-        this.usedPosition = newPosition
     }
 }
