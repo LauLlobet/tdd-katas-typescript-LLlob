@@ -31,11 +31,6 @@ describe('Tic Tac Toe', function () {
         var game2: Game = new Game()
         game2.user1PlaysAt(1,1)
         expect(() => game2.user2PlaysAt(1,1) ).toThrow(AlreadyPlayedPositionError)
-
-        var game2: Game = new Game()
-        game2.user1PlaysAt(1,1)
-        game2.user2PlaysAt(0,0)
-        expect(() => game2.user1PlaysAt(1,1) ).toThrow(AlreadyPlayedPositionError)
     })
 
 
@@ -50,13 +45,24 @@ export class AlreadyPlayedPositionError extends Error {
 
 }
 
+export class Position {
+    public x: number
+    public y: number
+
+    constructor(x: number, y: number){
+        this.x = x
+        this.y = y
+    }
+}
+
 export class Game {
     private currentPlayerIsX: boolean = true
     private usedPositionX: number = -1
     private usedPositionY: number = -1
+    private usedPosition = new Position(-1,-1)
     
     user2PlaysAt(arg0: number, arg1: number) {
-        if(this.usedPositionX === arg0 && this.usedPositionY === arg1){
+        if(this.usedPosition.x === arg0 && this.usedPosition.y === arg1){
             throw new AlreadyPlayedPositionError()
         }
         if(this.currentPlayerIsX){
@@ -65,6 +71,7 @@ export class Game {
         this.currentPlayerIsX = true
         this.usedPositionX = arg0
         this.usedPositionY = arg0
+        this.usedPosition = new Position(arg0,arg1)
     }
 
     user1PlaysAt(arg0: number, arg1: number) {
@@ -77,5 +84,6 @@ export class Game {
         this.currentPlayerIsX = false
         this.usedPositionX = arg0
         this.usedPositionY = arg0
+        this.usedPosition = new Position(arg0,arg1)
     }
 }
