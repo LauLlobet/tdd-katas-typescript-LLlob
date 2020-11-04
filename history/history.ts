@@ -53,6 +53,11 @@ export class Position {
         this.x = x
         this.y = y
     }
+
+    equals(other: Position): boolean{
+        return this.x === other.x
+         && this.y === other.y
+    }
 }
 
 export class Game {
@@ -62,7 +67,7 @@ export class Game {
     private usedPosition = new Position(-1,-1)
     
     user2PlaysAt(arg0: number, arg1: number) {
-        if(this.usedPosition.x === arg0 && this.usedPosition.y === arg1){
+        if(this.usedPosition.equals(new Position(arg0,arg1))){
             throw new AlreadyPlayedPositionError()
         }
         if(this.currentPlayerIsX){
