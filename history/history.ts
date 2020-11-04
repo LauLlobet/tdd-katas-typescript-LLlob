@@ -30,8 +30,7 @@ describe('Tic Tac Toe', function () {
 
         var game2: Game = new Game()
         game2.user1PlaysAt(1,1)
-        expect(() => game2.user1PlaysAt(1,1) ).toThrow(AlreadyPlayedPositionError)
-
+        expect(() => game2.user2PlaysAt(1,1) ).toThrow(AlreadyPlayedPositionError)
     })
 
 
@@ -52,6 +51,9 @@ export class Game {
     private usedPositionY: number = -1
     
     user2PlaysAt(arg0: number, arg1: number) {
+        if(this.usedPositionX === arg0 && this.usedPositionY === arg1){
+            throw new AlreadyPlayedPositionError()
+        }
         if(this.currentPlayerIsX){
             throw new NotThisPlayerTurnError()
         }

@@ -12,6 +12,9 @@ export class Game {
     private usedPositionY: number = -1
     
     user2PlaysAt(arg0: number, arg1: number) {
+        if(this.usedPositionX === arg0 && this.usedPositionY === arg1){
+            throw new AlreadyPlayedPositionError()
+        }
         if(this.currentPlayerIsX){
             throw new NotThisPlayerTurnError()
         }
