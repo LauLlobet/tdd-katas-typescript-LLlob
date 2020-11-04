@@ -62,8 +62,6 @@ export class Position {
 
 export class Game {
     private currentPlayerIsX: boolean = true
-    private usedPositionX: number = -1
-    private usedPositionY: number = -1
     private usedPosition = new Position(-1,-1)
     
     user2PlaysAt(arg0: number, arg1: number) {
