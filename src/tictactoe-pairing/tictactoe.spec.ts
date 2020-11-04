@@ -3,5 +3,3 @@ describe('Tic Tac Toe', function () {
         
     })
 });
-//-------- IMPLEMENTATION --------
-
