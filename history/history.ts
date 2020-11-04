@@ -74,21 +74,17 @@ export class Game {
             throw new NotThisPlayerTurnError()
         }
         this.currentPlayerIsX = true
-        this.usedPositionX = arg0
-        this.usedPositionY = arg0
         this.usedPosition = new Position(arg0,arg1)
     }
 
     user1PlaysAt(arg0: number, arg1: number) {
-        if(this.usedPositionX === arg0 && this.usedPositionY === arg1){
+        if(this.usedPosition.equals(new Position(arg0,arg1))){
             throw new AlreadyPlayedPositionError()
         }
         if(! this.currentPlayerIsX){
             throw new NotThisPlayerTurnError()
         }
         this.currentPlayerIsX = false
-        this.usedPositionX = arg0
-        this.usedPositionY = arg0
         this.usedPosition = new Position(arg0,arg1)
     }
 }
