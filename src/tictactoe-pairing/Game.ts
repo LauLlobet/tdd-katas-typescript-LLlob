@@ -3,6 +3,9 @@ export class NotThisPlayerTurnError extends Error {
 }
 
 export class Game {
+    user2PlaysAt(arg0: number, arg1: number) {
+        throw new Error("Method not implemented.");
+    }
     private currentPlayerIs1: boolean = true
 
     user1PlaysAt(arg0: number, arg1: number) {
