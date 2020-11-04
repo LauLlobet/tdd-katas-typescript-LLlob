@@ -1,4 +1,4 @@
-import {Game, NotThisPlayerTurnError} from "./Game";
+import {Game, NotThisPlayerTurnError, AlreadyPlayedPositionError} from "./Game";
 
 
 describe('Tic Tac Toe', function () {
@@ -23,6 +23,12 @@ describe('Tic Tac Toe', function () {
     })
 
 
+    it('should not allow playing on the same position', function() {
+        var game: Game = new Game()
+        game.user1PlaysAt(0,0)
+        expect(() => game.user1PlaysAt(0,0) ).toThrow(AlreadyPlayedPositionError)
+    })
+
 
 });
 //-------- IMPLEMENTATION --------
@@ -31,8 +37,14 @@ export class NotThisPlayerTurnError extends Error {
 
 }
 
+export class AlreadyPlayedPositionError extends Error {
+
+}
+
 export class Game {
     private currentPlayerIsX: boolean = true
+    private usedPositionX: number = -1
+    private usedPositionY: number = -1
     
     user2PlaysAt(arg0: number, arg1: number) {
         if(this.currentPlayerIsX){
@@ -42,9 +54,14 @@ export class Game {
     }
 
     user1PlaysAt(arg0: number, arg1: number) {
+        if(this.usedPositionX === arg0 && this.usedPositionY === arg1){
+            throw new AlreadyPlayedPositionError()
+        }
         if(! this.currentPlayerIsX){
             throw new NotThisPlayerTurnError()
         }
         this.currentPlayerIsX = false
+        this.usedPositionX = arg0
+        this.usedPositionY = arg0
     }
 }

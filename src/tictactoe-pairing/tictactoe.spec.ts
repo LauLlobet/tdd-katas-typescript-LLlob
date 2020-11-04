@@ -1,4 +1,4 @@
-import {Game, NotThisPlayerTurnError} from "./Game";
+import {Game, NotThisPlayerTurnError, AlreadyPlayedPositionError} from "./Game";
 
 
 describe('Tic Tac Toe', function () {
@@ -22,6 +22,12 @@ describe('Tic Tac Toe', function () {
         expect(()=> game3.user2PlaysAt(1,0) ).not.toThrow()
     })
 
+
+    it('should not allow playing on the same position', function() {
+        var game: Game = new Game()
+        game.user1PlaysAt(0,0)
+        expect(() => game.user1PlaysAt(0,0) ).toThrow(AlreadyPlayedPositionError)
+    })
 
 
 });
