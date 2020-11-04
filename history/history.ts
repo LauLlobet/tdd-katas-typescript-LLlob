@@ -6,31 +6,31 @@ describe('Tic Tac Toe', function () {
     // start from corner cases
     it('should not allow same user playing twice', function() {
         var game: Game = new Game()
-        game.user1PlaysAt(1,1)
-        expect(() => {game.user1PlaysAt(0,0)}).toThrowError(NotThisPlayerTurnError)
+        game.userXPlaysAt(1,1)
+        expect(() => {game.userXPlaysAt(0,0)}).toThrowError(NotThisPlayerTurnError)
 
         var game2: Game = new Game()
-        game2.user1PlaysAt(1,1)
-        expect(()=> game2.user2PlaysAt(0,0)).not.toThrow()
-        expect(() => game2.user2PlaysAt(2,2) ).toThrowError()
+        game2.userXPlaysAt(1,1)
+        expect(()=> game2.userOPlaysAt(0,0)).not.toThrow()
+        expect(() => game2.userOPlaysAt(2,2) ).toThrowError()
 
         //transitive
         var game3: Game = new Game()
-        game3.user1PlaysAt(1,1)
-        expect(()=> game3.user2PlaysAt(0,0) ).not.toThrow()
-        expect(()=> game3.user1PlaysAt(2,2) ).not.toThrow()
-        expect(()=> game3.user2PlaysAt(1,0) ).not.toThrow()
+        game3.userXPlaysAt(1,1)
+        expect(()=> game3.userOPlaysAt(0,0) ).not.toThrow()
+        expect(()=> game3.userXPlaysAt(2,2) ).not.toThrow()
+        expect(()=> game3.userOPlaysAt(1,0) ).not.toThrow()
     })
 
 
     it('should not allow playing on the same position', function() {
         var game: Game = new Game()
-        game.user1PlaysAt(0,0)
-        expect(() => game.user1PlaysAt(0,0) ).toThrow(AlreadyPlayedPositionError)
+        game.userXPlaysAt(0,0)
+        expect(() => game.userXPlaysAt(0,0) ).toThrow(AlreadyPlayedPositionError)
 
         var game2: Game = new Game()
-        game2.user1PlaysAt(1,1)
-        expect(() => game2.user2PlaysAt(1,1) ).toThrow(AlreadyPlayedPositionError)
+        game2.userXPlaysAt(1,1)
+        expect(() => game2.userOPlaysAt(1,1) ).toThrow(AlreadyPlayedPositionError)
     })
 
 
@@ -72,25 +72,29 @@ class UsedPositionsKeeper {
 }
 
 export class Game {
-    private currentPlayerIsX: boolean = true
+    private previousPlayerIsO: boolean = true
     private usedPositionsKeeper : UsedPositionsKeeper= new UsedPositionsKeeper
     
-    user2PlaysAt(arg0: number, arg1: number) {
+    userOPlaysAt(arg0: number, arg1: number) {
         const newPosition = new Position(arg0, arg1);
         this.usedPositionsKeeper.thowIfUsed(newPosition)
 
-        if(this.currentPlayerIsX){
+        if(this.previousPlayerIsO){
             throw new NotThisPlayerTurnError()
         }
-        this.currentPlayerIsX = true
+        this.previousPlayerIsO = true
     }
 
-    user1PlaysAt(arg0: number, arg1: number) {
+    userXPlaysAt(arg0: number, arg1: number) {
         const newPosition = new Position(arg0, arg1);
         this.usedPositionsKeeper.thowIfUsed(newPosition)
-        if(! this.currentPlayerIsX){
+        if(this.previousPlayerIsX()){
             throw new NotThisPlayerTurnError()
         }
-        this.currentPlayerIsX = false
+        this.previousPlayerIsO = false
+    }
+
+    private previousPlayerIsX() {
+        return !this.previousPlayerIsO;
     }
 }

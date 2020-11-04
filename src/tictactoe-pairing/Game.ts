@@ -33,25 +33,29 @@ class UsedPositionsKeeper {
 }
 
 export class Game {
-    private currentPlayerIsX: boolean = true
+    private previousPlayerIsO: boolean = true
     private usedPositionsKeeper : UsedPositionsKeeper= new UsedPositionsKeeper
     
-    user2PlaysAt(arg0: number, arg1: number) {
+    userOPlaysAt(arg0: number, arg1: number) {
         const newPosition = new Position(arg0, arg1);
         this.usedPositionsKeeper.thowIfUsed(newPosition)
 
-        if(this.currentPlayerIsX){
+        if(this.previousPlayerIsO){
             throw new NotThisPlayerTurnError()
         }
-        this.currentPlayerIsX = true
+        this.previousPlayerIsO = true
     }
 
-    user1PlaysAt(arg0: number, arg1: number) {
+    userXPlaysAt(arg0: number, arg1: number) {
         const newPosition = new Position(arg0, arg1);
         this.usedPositionsKeeper.thowIfUsed(newPosition)
-        if(! this.currentPlayerIsX){
+        if(this.previousPlayerIsX()){
             throw new NotThisPlayerTurnError()
         }
-        this.currentPlayerIsX = false
+        this.previousPlayerIsO = false
+    }
+
+    private previousPlayerIsX() {
+        return !this.previousPlayerIsO;
     }
 }
