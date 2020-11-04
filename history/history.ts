@@ -12,7 +12,7 @@ describe('Tic Tac Toe', function () {
         var game2: Game = new Game()
         game2.userXPlaysAt(1,1)
         expect(()=> game2.userOPlaysAt(0,0)).not.toThrow()
-        expect(() => game2.userOPlaysAt(2,2) ).toThrowError()
+        expect(() => game2.userOPlaysAt(2,2) ).toThrowError(NotThisPlayerTurnError)
 
         //transitive
         var game3: Game = new Game()
