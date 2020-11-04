@@ -21,7 +21,7 @@ export class Position {
     }
 }
 
-//SPR
+//SPR -- codigo estable
 class UsedPositionsKeeper {
     private usedPosition = new Position(-1,-1)
 
@@ -33,7 +33,7 @@ class UsedPositionsKeeper {
     }
 }
 
-//SRP
+//SRP -- codigo estable
 class CurrentPlayerKeeper {
     private previousPlayerIsX: boolean = false
     throwIfCannotPlay(player: string){
