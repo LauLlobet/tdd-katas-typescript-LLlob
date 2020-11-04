@@ -12,7 +12,7 @@ describe('Tic Tac Toe', function () {
         var game2: Game = new Game()
         game2.user1PlaysAt(1,1)
         expect(()=>{game2.user2PlaysAt(0,0)}).not.toThrow()
-       // expect(() => {game2.user2PlaysAt(2,2)}).toThrowError()
+        expect(() => {game2.user2PlaysAt(2,2)}).toThrowError()
     })
 
 });
