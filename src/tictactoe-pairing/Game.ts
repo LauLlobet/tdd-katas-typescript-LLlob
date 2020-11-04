@@ -26,14 +26,15 @@ export class Game {
     private usedPosition = new Position(-1,-1)
     
     user2PlaysAt(arg0: number, arg1: number) {
-        if(this.usedPosition.equals(new Position(arg0,arg1))){
+        const newPosition = new Position(arg0, arg1);
+        if(this.usedPosition.equals(newPosition)){
             throw new AlreadyPlayedPositionError()
         }
         if(this.currentPlayerIsX){
             throw new NotThisPlayerTurnError()
         }
         this.currentPlayerIsX = true
-        this.usedPosition = new Position(arg0,arg1)
+        this.usedPosition = newPosition
     }
 
     user1PlaysAt(arg0: number, arg1: number) {
