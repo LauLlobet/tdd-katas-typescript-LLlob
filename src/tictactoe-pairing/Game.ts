@@ -21,6 +21,7 @@ export class Position {
     }
 }
 
+//SPR
 class UsedPositionsKeeper {
     private usedPosition = new Position(-1,-1)
 
@@ -32,14 +33,18 @@ class UsedPositionsKeeper {
     }
 }
 
+//SRP
 class CurrentPlayerKeeper {
     private previousPlayerIsX: boolean = false
     throwIfCannotPlay(player: string){
-        if( !this.previousPlayerIsX && player === "O" ||
-             this.previousPlayerIsX && player === "X"){
+        if( this.samePlayerAsPreviousTurn(player)){
             throw new NotThisPlayerTurnError()
         }
         this.previousPlayerIsX = !this.previousPlayerIsX
+    }
+
+    private samePlayerAsPreviousTurn(player: string) {
+        return !this.previousPlayerIsX && player === "O" || this.previousPlayerIsX && player === "X";
     }
 }
 
