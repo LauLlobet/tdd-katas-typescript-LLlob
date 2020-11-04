@@ -74,10 +74,8 @@ class UsedPositionsKeeper {
 class CurrentPlayerKeeper {
     private previousPlayerIsX: boolean = false
     throwIfCannotPlay(player: string){
-        if( this.previousPlayerIsX && player === "X"){
-            throw new NotThisPlayerTurnError()
-        }
-        if( !this.previousPlayerIsX && player === "O"){
+        if( !this.previousPlayerIsX && player === "O" ||
+             this.previousPlayerIsX && player === "X"){
             throw new NotThisPlayerTurnError()
         }
         this.previousPlayerIsX = !this.previousPlayerIsX
