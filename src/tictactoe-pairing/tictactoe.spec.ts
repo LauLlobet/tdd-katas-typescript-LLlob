@@ -27,6 +27,11 @@ describe('Tic Tac Toe', function () {
         var game: Game = new Game()
         game.user1PlaysAt(0,0)
         expect(() => game.user1PlaysAt(0,0) ).toThrow(AlreadyPlayedPositionError)
+
+        var game: Game = new Game()
+        game.user1PlaysAt(1,1)
+        expect(() => game.user1PlaysAt(1,1) ).toThrow(AlreadyPlayedPositionError)
+
     })
 
 
