@@ -71,30 +71,32 @@ class UsedPositionsKeeper {
     }
 }
 
+class CurrentPlayerKeeper {
+    private previousPlayerIsX: boolean = false
+    throwIfCannotPlay(player: string){
+        if( this.previousPlayerIsX && player === "X"){
+            throw new NotThisPlayerTurnError()
+        }
+        if( !this.previousPlayerIsX && player === "O"){
+            throw new NotThisPlayerTurnError()
+        }
+        this.previousPlayerIsX = !this.previousPlayerIsX
+    }
+}
+
 export class Game {
-    private previousPlayerIsO: boolean = true
-    private usedPositionsKeeper : UsedPositionsKeeper= new UsedPositionsKeeper
-    
+    private usedPositionsKeeper : UsedPositionsKeeper = new UsedPositionsKeeper
+    private currentPlayerKeeper : CurrentPlayerKeeper = new CurrentPlayerKeeper
+   
     userOPlaysAt(arg0: number, arg1: number) {
         const newPosition = new Position(arg0, arg1);
         this.usedPositionsKeeper.thowIfUsed(newPosition)
-
-        if(this.previousPlayerIsO){
-            throw new NotThisPlayerTurnError()
-        }
-        this.previousPlayerIsO = true
+        this.currentPlayerKeeper.throwIfCannotPlay("O")
     }
 
     userXPlaysAt(arg0: number, arg1: number) {
         const newPosition = new Position(arg0, arg1);
         this.usedPositionsKeeper.thowIfUsed(newPosition)
-        if(this.previousPlayerIsX()){
-            throw new NotThisPlayerTurnError()
-        }
-        this.previousPlayerIsO = false
-    }
-
-    private previousPlayerIsX() {
-        return !this.previousPlayerIsO;
+        this.currentPlayerKeeper.throwIfCannotPlay("X")
     }
 }
