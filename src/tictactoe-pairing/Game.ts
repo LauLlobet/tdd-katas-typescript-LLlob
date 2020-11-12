@@ -23,13 +23,13 @@ export class Position {
 
 //SPR -- codigo estable
 class UsedPositionsKeeper {
-    private usedPosition = new Position(-1,-1)
+    private usedPosition: Position[] = []
 
     thowIfUsed(newPosition: Position){
-        if(this.usedPosition.equals(newPosition)){
+        if(this.usedPosition.filter( x => x.equals(newPosition)).length){
             throw new AlreadyPlayedPositionError()
         }
-        this.usedPosition = newPosition
+        this.usedPosition.push(newPosition)
     }
 }
 
